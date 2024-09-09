@@ -3,10 +3,9 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import { rehypeCodeBlockTitle } from '@/lib/rehype-plugin/codeblock-title'
+import { rehypeCodeBlockTitle } from './lib/rehype-plugin/codeblock-title'
 import { visit } from 'unist-util-visit'
-import { remarkAdmonition } from '@/lib/remark-plugin/admonition'
-
+import { remarkAdmonition } from './lib/remark-plugin/admonition'
 
 const themes = {
   light: 'light-plus',
