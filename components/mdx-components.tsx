@@ -16,7 +16,8 @@ import Link from 'next/link'
 import EvervaultCardExample from './examples/evervault-card/evervault-card-example'
 import manifest from '@/lib/material-icon'
 import FileIcon from '@/components/file-icon'
-import { ModeToggle } from './theme/mode-toggle'
+import { ModeToggle } from '@/components/theme/mode-toggle'
+import TerminalTextHoverEffectExample from '@/components/examples/terminal-text-hover-effect/terminal-text-hover-effect-example'
 
 const components = {
   Accordion,
@@ -409,6 +410,7 @@ const components = {
   ),
   ModeToggle,
   EvervaultCardExample,
+  TerminalTextHoverEffectExample,
 }
 
 interface MdxProps {

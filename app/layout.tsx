@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Header from "../components/header/header";
 import { ThemeProvider } from "../components/theme/theme-provider";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/footer/footer";
-
-const jetbrains_mono = JetBrains_Mono({ subsets: ["latin"] });
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
 
 export const metadata: Metadata = {
-  title: "norm/ui",
+  title: "asterisk/ui",
   description:
     "Beautiful animated components built with Next.js, Typescript, Tailwind CSS, and Framer Motion",
 };
@@ -20,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn("min-h-screen", jetbrains_mono.className)}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className={cn("min-h-screen")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

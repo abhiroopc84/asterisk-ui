@@ -1,0 +1,190 @@
+---
+title: Terminal Text Hover Effect
+description: Hover Animations on Terminal-like Typography.
+---
+:::tip Tip
+
+This component is best viewed on desktop.
+
+:::
+<Tabs defaultValue="preview">
+
+<TabsList>
+  <TabsTrigger value="preview">Preview</TabsTrigger>
+  <TabsTrigger value="code">Code</TabsTrigger>
+</TabsList>
+
+<TabsContent value="preview">
+  <TerminalTextHoverEffectExample />
+</TabsContent>
+
+<TabsContent value="code">
+```tsx showLineNumbers
+import TerminalTextHoverEffect from "@/components/ui/terminal-text-hover-effect";
+import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+
+const TerminalTextHoverEffectExample = () => {
+  return (
+    <div
+      className={cn(
+        "border bg-background mt-8 rounded-lg p-6 flex items-center justify-center"
+      )}
+    >
+      <div className="flex flex-row gap-2 border rounded-lg py-2 px-3 items-center absolute bottom-2 right-2">
+        <span className="text-sm">Hover on the text</span>
+        <Info className="w-4 h-4" />
+      </div>
+      <div className="px-8 py-16 w-fit flex flex-col gap-4">
+        <h2 className="text-xs uppercase font-mono">Valorant Agents</h2>
+        <div className="flex flex-col gap-1">
+          <TerminalTextHoverEffect>
+            Duelists - Raze Jett Reyna Neon Yoru Phoenix Iso
+          </TerminalTextHoverEffect>
+          <TerminalTextHoverEffect>
+            Initiators - Gekko Sova Kayo Fade Breach Skye
+          </TerminalTextHoverEffect>
+          <TerminalTextHoverEffect>
+            Controllers - Omen Clove Viper Harbor Astra Brim
+          </TerminalTextHoverEffect>
+          <TerminalTextHoverEffect>
+            Sentinels - Cypher Killjoy Chamber Sage Deadlock Vyse
+          </TerminalTextHoverEffect>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TerminalTextHoverEffectExample;
+```
+</TabsContent>
+</Tabs>
+
+## Installation
+<Steps>
+  <Step>Install the following dependencies:</Step>
+```zsh title="npm"
+npm install framer-motion
+```
+  <Step>Copy and paste the following code into your project.</Step>
+```tsx title="components/ui/terminal-text-hover-effect.tsx"
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { animate, motion, useAnimation } from "framer-motion";
+
+const lettersAndSymbols = [
+  "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", 
+  "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "!", "@", "#", "$", 
+  "%", "^", "&", "*", "-", "_", "+", "=", ";", ":", "<", ">", ","
+];
+
+const TerminalChar = ({
+  char,
+  delay,
+  trigger,
+}: {
+  char: string;
+  delay: number;
+  trigger?: boolean;
+}) => {
+  const controls = useAnimation();
+  const originalChar = useRef(char);
+  const charRef = useRef(null);
+  const [currentChar, setCurrentChar] = useState(char);
+  const [blockOpacity, setBlockOpacity] = useState(0);
+  const [timeoutID, setTimeoutID] = useState<NodeJS.Timeout>();
+
+  const animation = async () => {
+    await controls.start({
+      opacity: [0, 1],
+      transition: { duration: 0.1 },
+    });
+
+    for (let i = 0; i < 3; i++) {
+      setCurrentChar(
+        lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)]
+      );
+      if (i === 0) {
+        setBlockOpacity(0);
+      }
+      await new Promise((resolve) => setTimeout(resolve, 40));
+    }
+
+    setCurrentChar(originalChar.current);
+  };
+
+  useEffect(() => {
+    if (trigger) {
+      clearTimeout(timeoutID);
+      animate(charRef.current, { opacity: 0 });
+      setTimeoutID(setTimeout(() => animation(), delay * 1000));
+    }
+  }, [trigger]);
+
+  return (
+    <motion.div
+      animate={controls}
+      onAnimationStart={() => setBlockOpacity(1)}
+      ref={charRef}
+      className={`
+        inline-block leading-[0.9] uppercase relative after:content-[''] 
+        after:w-[1ch] after:absolute after:top-0 after:left-0 
+        after:bg-foreground after:h-full ${
+          blockOpacity === 0 ? "after:opacity-0" : "after:opacity-1"
+        }`}
+    >
+      {currentChar}
+    </motion.div>
+  );
+};
+
+const TerminalText = ({
+  trigger,
+  children,
+}: {
+  trigger: boolean;
+  children: string;
+}) => {
+  return (
+    <span className="hover-effect cursor-pointer group">
+      {Array.from(children).map((char, index) => (
+        char === " " ? (
+          <div key={index} className="inline-block">{"\u00A0"}</div>
+        ) : (
+          <TerminalChar
+            key={index}
+            char={char}
+            delay={index * 0.07}
+            trigger={trigger}
+          />
+        )
+      ))}
+    </span>
+  );
+};
+
+const TerminalTextHoverEffect = ({ children }: { children: string }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+
+  return (
+    <div
+      className="flex items-start font-mono"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <TerminalText trigger={isHovered}>{children}</TerminalText>
+    </div>
+  );
+};
+
+export default TerminalTextHoverEffect;
+```
+
+  <Step>Update the import paths to match your project setup.</Step>
+
+</Steps>

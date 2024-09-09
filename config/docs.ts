@@ -34,6 +34,11 @@ export const docsConfig: DocsConfig = {
           href: "/docs/components/evervault-card",
           items: [],
         },
+        {
+          title: "Terminal Text Hover Effect",
+          href: "/docs/components/terminal-text-hover-effect",
+          items: [],
+        },
       ],
     },
   ],

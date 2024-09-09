@@ -7,12 +7,12 @@ const EvervaultCardExample = () => {
   return (
     <div
       className={cn(
-        "border bg-accent mt-8 rounded-lg p-6 flex items-center justify-center"
+        "border bg-background mt-8 rounded-lg p-6 flex items-center justify-center"
       )}
     >
       <div
         className={cn(
-          "relative md:min-h-[500px] min-h-[450px] w-full bg-background box-content p-6 flex flex-col justify-start max-w-[350px] gap-4"
+          "relative border md:min-h-[500px] min-h-[450px] w-full bg-background box-content p-6 flex flex-col justify-start max-w-[350px] gap-4"
         )}
       >
         <span

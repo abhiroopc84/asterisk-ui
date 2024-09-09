@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { ChevronRightIcon, ExternalLinkIcon } from "lucide-react";
 import { Mdx } from "@/components/mdx-components";
+import { DocsPager } from "@/components/docs-pager";
 
 interface DocPageProps {
   params: {
@@ -72,12 +73,13 @@ export default async function DocPage({ params }: DocPageProps) {
             {doc.title}
           </h1>
           {doc.description && (
-            <p className="text-base text-muted-foreground">{doc.description}</p>
+            <p className="text-base text-muted-foreground font-mono">{doc.description}</p>
           )}
         </div>
         <div className="pb-12 pt-8">
           <Mdx code={doc.body.code} />
         </div>
+        <DocsPager doc={doc} />
       </div>
     </div>
   );
