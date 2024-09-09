@@ -4,8 +4,14 @@ import Header from "@/components/header/header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/footer/footer";
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { JetBrains_Mono } from "next/font/google";
+
+const JetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+});
 
 export const metadata: Metadata = {
   title: "asterisk/ui",
@@ -19,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${JetBrainsMono.variable}`}>
       <body className={cn("min-h-screen")}>
         <ThemeProvider
           attribute="class"

@@ -11,7 +11,7 @@ const config: Config = {
   	extend: {
       fontFamily: {
         'sans': ['var(--font-geist-sans)'],
-        'mono': ['JetBrains Mono'],
+        'mono': ['var(--font-jetbrains-mono)'],
       },
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
