@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
   const pathname = usePathname();
   return (
-    <div className={`flex flex-row p-6 items-center w-full sticky top-0 z-50 text-sm ${pathname.includes("docs") ? "border-t" : "border-t-0"}`}>
+    <div className={`flex flex-row px-6 py-4 items-center w-full sticky top-0 z-50 text-muted-foreground text-sm ${pathname.includes("docs") ? "border-t" : "border-t-0"}`}>
       <span>
         built by{" "}
         <Link
@@ -17,7 +17,7 @@ export default function Footer() {
         </Link>
         . source code available on{" "}
         <Link
-          href={"https://github.com/abhiroopc84/swirl-ui"}
+          href={"https://github.com/abhiroopc84/asterisk-ui"}
           className="underline underline-offset-2"
         >
           github

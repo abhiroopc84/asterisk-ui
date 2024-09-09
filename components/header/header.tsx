@@ -1,8 +1,10 @@
-"use client"
+"use client";
 
 import { ModeToggle } from "../theme/mode-toggle";
+import { CommandMenu } from "./command-menu";
 import HeaderLogo from "./header-logo";
 import HeaderPage from "./header-page";
+import MobileNav from "./mobile-nav";
 
 export default function Header() {
   return (
@@ -11,7 +13,15 @@ export default function Header() {
         <HeaderLogo />
         <HeaderPage />
       </div>
-      <ModeToggle />
+      <div className="flex flex-row gap-4 items-center w-full md:w-fit">
+        <CommandMenu />
+        <div className="hidden md:flex">
+          <ModeToggle />
+        </div>
+        <div className="flex md:hidden">
+          <MobileNav />
+        </div>
+      </div>
     </div>
   );
 }
