@@ -6,11 +6,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import SidebarNav from "../docs-sidebar/sidebar-nav";
+import SidebarNav from "@/components/docs-sidebar/sidebar-nav";
 import { Asterisk, Menu, X } from "lucide-react";
 import { docsConfig } from "@/config/docs";
 import { useState } from "react";
-import { ModeToggle } from "../theme/mode-toggle";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 
 export default function MobileNav() {
   const [navOpen, setNavOpen] = useState(false);

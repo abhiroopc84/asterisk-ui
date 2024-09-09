@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit'
-import { isTerminalLanguage } from '../terminal'
+import { isTerminalLanguage } from '@/lib/terminal'
 
 export function rehypeCodeBlockTitle() {
   return (tree: any) => {

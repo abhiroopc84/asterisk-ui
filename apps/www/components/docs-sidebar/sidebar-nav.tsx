@@ -2,8 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { type DocsConfig } from "@/config/docs";
-import { SidebarNavItem } from "types/nav";
-import { SidebarNavItems } from "./sidebar-nav-items";
+import { SidebarNavItems } from "@/components/docs-sidebar/sidebar-nav-items";
 import { cn } from "@/lib/utils";
 
 export default function SidebarNav({

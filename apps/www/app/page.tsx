@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import TerminalTextHoverEffect from "@/components/ui/terminal-text-hover-effect";
 import { Github } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Home() {
   return (

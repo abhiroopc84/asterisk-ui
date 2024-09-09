@@ -1,4 +1,4 @@
-import { SidebarNavItem } from "../../../types/nav";
+import { SidebarNavItem } from "@/types/nav";
 
 export interface DocsConfig {
   sidebarNav: SidebarNavItem[];

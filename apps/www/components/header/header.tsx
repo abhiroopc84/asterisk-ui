@@ -1,10 +1,10 @@
 "use client";
 
-import { ModeToggle } from "../theme/mode-toggle";
-import { CommandMenu } from "./command-menu";
-import HeaderLogo from "./header-logo";
-import HeaderPage from "./header-page";
-import MobileNav from "./mobile-nav";
+import { ModeToggle } from "@/components/theme/mode-toggle";
+import { CommandMenu } from "@/components/header/command-menu";
+import HeaderLogo from "@/components/header/header-logo";
+import HeaderPage from "@/components/header/header-page";
+import MobileNav from "@/components/header/mobile-nav";
 
 export default function Header() {
   return (
