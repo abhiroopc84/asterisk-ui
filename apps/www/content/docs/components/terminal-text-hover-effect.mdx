@@ -73,6 +73,7 @@ npm install framer-motion
 
 import { useState, useRef, useEffect } from "react";
 import { animate, motion, useAnimation } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const lettersAndSymbols = [
   "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", 
@@ -165,7 +166,7 @@ const TerminalText = ({
   );
 };
 
-const TerminalTextHoverEffect = ({ children }: { children: string }) => {
+const TerminalTextHoverEffect = ({ children, className }: { children: string, className?: string }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => setIsHovered(true);
@@ -173,7 +174,7 @@ const TerminalTextHoverEffect = ({ children }: { children: string }) => {
 
   return (
     <div
-      className="flex items-start font-mono"
+      className={cn("flex items-start font-mono", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -188,3 +189,10 @@ export default TerminalTextHoverEffect;
   <Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
+
+## Props
+
+| Prop                                                 | Type     | Default   | Description                                  |
+| ---------------------------------------------------- | -------- | --------- | -------------------------------------------- |
+| children                                             | `string` | undefined | The string that you want the hover effect on |
+| className                                            | `string` | undefined | Additional CSS classes to apply to the div   | 

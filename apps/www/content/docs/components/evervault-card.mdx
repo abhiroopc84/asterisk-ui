@@ -57,8 +57,8 @@ const EvervaultCardExample = () => {
             "absolute w-px h-px -left-px -bottom-px before:bg-foreground before:absolute before:w-[9px] before:h-px before:block before:-left-1 after:bg-foreground after:absolute after:w-px after:h-[9px] after:block after:-bottom-1"
           )}
         ></span>
-        <EvervaultCard>
-          <span className={cn("text-2xl font-bold")}>hover</span>
+        <EvervaultCard className={cn("text-2xl font-bold")}>
+          hover
         </EvervaultCard>
         <div className={cn("flex flex-col flex-1 justify-between")}>
           <div>
@@ -100,8 +100,9 @@ import { ReactElement, Ref, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import React from "react";
 
-const GridImage = ({
+const CardImage = ({
   children,
   colors,
 }: {
@@ -143,12 +144,12 @@ const GridImage = ({
   );
 };
 
-const GridText = ({
+const CardText = ({
   children,
   position,
   divRef,
 }: {
-  children: ReactElement;
+  children: string;
   position: { x: number; y: number };
   divRef: Ref<HTMLDivElement>;
 }) => {
@@ -180,9 +181,11 @@ const GridText = ({
 const EvervaultCard = ({
   children,
   colors,
+  className,
 }: {
-  children: ReactElement;
+  children: string;
   colors?: { dark?: string[]; light?: string[] };
+  className?: string;
 }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [randText, setRandText] = useState("");
@@ -236,16 +239,16 @@ const EvervaultCard = ({
     );
 
   return (
-    <GridImage colors={colors || undefined}>
-      <>
-        <div className={cn("z-10 fill-foreground text-foreground")}>
+    <CardImage colors={colors}>
+      <React.Fragment>
+        <div className={cn("z-10 fill-foreground text-foreground", className)}>
           {children}
         </div>
-        <GridText divRef={divRef} position={position}>
-          <>{randText}</>
-        </GridText>
-      </>
-    </GridImage>
+        <CardText divRef={divRef} position={position}>
+          {randText}
+        </CardText>
+      </React.Fragment>
+    </CardImage>
   );
 };
 
@@ -255,3 +258,11 @@ export default EvervaultCard;
   <Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
+
+## Props
+
+| Prop                                                 | Type     | Default   | Description                                  |
+| ---------------------------------------------------- | -------- | --------- | -------------------------------------------- |
+| children                                             | `string` | undefined | The string that you want the hover effect on. |
+| colors                                               | `object` | undefined | Colors for the background gradient `{ dark?: string[], light?: string[] }`. |
+| className                                            | `string` | undefined | Additional CSS classes to apply to the div.   | 

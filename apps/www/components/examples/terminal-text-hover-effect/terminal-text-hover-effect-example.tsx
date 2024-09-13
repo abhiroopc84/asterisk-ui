@@ -9,11 +9,11 @@ const TerminalTextHoverEffectExample = () => {
         "border bg-background mt-8 rounded-lg p-6 flex items-center justify-center"
       )}
     >
-      <div className="flex flex-row gap-2 border rounded-lg py-2 px-3 items-center absolute bottom-2 right-2">
+      <div className="flex flex-row gap-2 border rounded-md py-2 px-3 items-center absolute bottom-2 right-2">
         <span className="text-sm">Hover on the text</span>
         <Info className="w-4 h-4" />
       </div>
-      <div className="px-8 py-16 w-fit flex flex-col gap-4">
+      <div className="px-2 md:px-8 py-16 w-fit flex flex-col gap-4">
         <h2 className="text-xs uppercase font-mono">Valorant Agents</h2>
         <div className="flex flex-col gap-1">
           <TerminalTextHoverEffect>

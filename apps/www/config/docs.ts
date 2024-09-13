@@ -39,6 +39,11 @@ export const docsConfig: DocsConfig = {
           href: "/docs/components/terminal-text-hover-effect",
           items: [],
         },
+        {
+          title: "Unblur Text",
+          href: "/docs/components/unblur-text",
+          items: [],
+        },
       ],
     },
   ],

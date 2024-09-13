@@ -4,8 +4,9 @@ import { ReactElement, Ref, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import React from "react";
 
-const GridImage = ({
+const CardImage = ({
   children,
   colors,
 }: {
@@ -47,12 +48,12 @@ const GridImage = ({
   );
 };
 
-const GridText = ({
+const CardText = ({
   children,
   position,
   divRef,
 }: {
-  children: ReactElement;
+  children: string;
   position: { x: number; y: number };
   divRef: Ref<HTMLDivElement>;
 }) => {
@@ -84,9 +85,11 @@ const GridText = ({
 const EvervaultCard = ({
   children,
   colors,
+  className,
 }: {
-  children: ReactElement;
+  children: string;
   colors?: { dark?: string[]; light?: string[] };
+  className?: string;
 }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [randText, setRandText] = useState("");
@@ -140,16 +143,16 @@ const EvervaultCard = ({
     );
 
   return (
-    <GridImage colors={colors || undefined}>
-      <>
-        <div className={cn("z-10 fill-foreground text-foreground")}>
+    <CardImage colors={colors}>
+      <React.Fragment>
+        <div className={cn("z-10 fill-foreground text-foreground", className)}>
           {children}
         </div>
-        <GridText divRef={divRef} position={position}>
-          <>{randText}</>
-        </GridText>
-      </>
-    </GridImage>
+        <CardText divRef={divRef} position={position}>
+          {randText}
+        </CardText>
+      </React.Fragment>
+    </CardImage>
   );
 };
 
