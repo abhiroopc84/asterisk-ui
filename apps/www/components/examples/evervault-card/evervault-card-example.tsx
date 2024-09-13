@@ -35,8 +35,8 @@ const EvervaultCardExample = () => {
             "absolute w-px h-px -left-px -bottom-px before:bg-foreground before:absolute before:w-[9px] before:h-px before:block before:-left-1 after:bg-foreground after:absolute after:w-px after:h-[9px] after:block after:-bottom-1"
           )}
         ></span>
-        <EvervaultCard>
-          <span className={cn("text-2xl font-bold")}>hover</span>
+        <EvervaultCard className={cn("text-2xl font-bold")}>
+          hover
         </EvervaultCard>
         <div className={cn("flex flex-col flex-1 justify-between")}>
           <div>
