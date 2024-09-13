@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import TerminalTextHoverEffect from "@/components/ui/terminal-text-hover-effect";
 import { Github } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -36,6 +37,34 @@ export default function Home() {
           <Button variant={"ghost"}>
             <Github className="w-4 h-4" />
           </Button>
+        </div>
+        <div>
+          <a
+            href="https://www.producthunt.com/posts/asterisk-ui?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-asterisk&#0045;ui"
+            target="_blank"
+            className="flex dark:hidden"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=487962&theme=light"
+              alt="asterisk&#0047;ui - Beautiful&#0032;animated&#0032;components&#0032;built&#0032;with&#0032;Framer&#0032;Motion&#0046; | Product Hunt"
+              style={{ width: "250px", height: "54px" }}
+              width="250"
+              height="54"
+            />
+          </a>
+          <a
+            href="https://www.producthunt.com/posts/asterisk-ui?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-asterisk&#0045;ui"
+            target="_blank"
+            className="dark:flex hidden"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=487962&theme=dark"
+              alt="asterisk&#0047;ui - Beautiful&#0032;animated&#0032;components&#0032;built&#0032;with&#0032;Framer&#0032;Motion&#0046; | Product Hunt"
+              style={{ width: "250px", height: "54px" }}
+              width="250"
+              height="54"
+            />
+          </a>
         </div>
       </div>
     </div>
