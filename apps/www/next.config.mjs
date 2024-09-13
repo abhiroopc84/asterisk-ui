@@ -7,7 +7,17 @@ const nextConfig = {
       use: ['@svgr/webpack']
     })
     return config
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.producthunt.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 }
 
 export default withContentlayer(nextConfig);
