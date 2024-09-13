@@ -13,11 +13,12 @@ import '@/styles/admonition.css'
 import { Info, Siren, Skull, TriangleAlert } from 'lucide-react'
 import { useMDXComponent } from 'next-contentlayer2/hooks'
 import Link from 'next/link'
-import EvervaultCardExample from './examples/evervault-card/evervault-card-example'
+import EvervaultCardExample from '@/components/examples/evervault-card/evervault-card-example'
 import manifest from '@/lib/material-icon'
 import FileIcon from '@/components/file-icon'
 import { ModeToggle } from '@/components/theme/mode-toggle'
 import TerminalTextHoverEffectExample from '@/components/examples/terminal-text-hover-effect/terminal-text-hover-effect-example'
+import UnblurTextExample from '@/components/examples/unblur-text/unblur-text-example'
 
 const components = {
   Accordion,
@@ -411,6 +412,7 @@ const components = {
   ModeToggle,
   EvervaultCardExample,
   TerminalTextHoverEffectExample,
+  UnblurTextExample,
 }
 
 interface MdxProps {
