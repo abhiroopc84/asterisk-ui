@@ -9,9 +9,11 @@ import React from "react";
 const CardImage = ({
   children,
   colors,
+  className,
 }: {
   children: ReactElement;
   colors?: { dark?: string[]; light?: string[] };
+  className?: string;
 }) => {
   const { resolvedTheme } = useTheme();
   let darkGradient =
@@ -30,7 +32,8 @@ const CardImage = ({
   return (
     <div
       className={cn(
-        "flex aspect-square justify-center items-center rounded-3xl relative cursor-pointer min-w-64 min-h-64 max-w-[500px] max-h-[500px]"
+        "flex aspect-square justify-center items-center rounded-3xl relative cursor-pointer min-w-64 min-h-64 max-w-[500px] max-h-[500px]",
+        className
       )}
     >
       {children}
@@ -87,7 +90,7 @@ const EvervaultCard = ({
   colors,
   className,
 }: {
-  children: string;
+  children: string | ReactElement;
   colors?: { dark?: string[]; light?: string[] };
   className?: string;
 }) => {
@@ -111,7 +114,7 @@ const EvervaultCard = ({
             x: e.clientX - divRef.current.getBoundingClientRect().left,
             y: e.clientY - divRef.current.getBoundingClientRect().top,
           });
-          setRandText(getRandomString(1500));
+          setRandText(getRandomString(3000));
         } else {
           divRef.current.style.opacity = "0";
         }
@@ -143,9 +146,9 @@ const EvervaultCard = ({
     );
 
   return (
-    <CardImage colors={colors}>
+    <CardImage colors={colors} className={className}>
       <React.Fragment>
-        <div className={cn("z-10 fill-foreground text-foreground", className)}>
+        <div className={cn("z-10 fill-foreground text-foreground")}>
           {children}
         </div>
         <CardText divRef={divRef} position={position}>

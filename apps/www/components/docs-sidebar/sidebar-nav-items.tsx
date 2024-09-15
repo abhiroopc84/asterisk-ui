@@ -22,10 +22,10 @@ export function SidebarNavItems({
             href={item.href}
             onClick={() => setNavOpen?.(false)}
             className={cn(
-              "group flex w-full items-center rounded-md border border-transparent px-2 py-1 active:text-yellow-600 active:dark:text-yellow-400 md:hover:dark:text-yellow-400 md:hover:text-yellow-600 md:hover:scale-105 transition ease-in-out",
+              "group flex w-full items-center rounded-md border border-transparent px-2 py-1 active:text-fuchsia-600 active:dark:text-fuchsia-400 md:hover:dark:text-fuchsia-400 md:hover:text-fuchsia-600 md:hover:scale-105 transition ease-in-out",
               item.disabled && "cursor-not-allowed opacity-60",
               pathname === item.href
-                ? "text-yellow-600 dark:text-yellow-400"
+                ? "text-fuchsia-600 dark:text-fuchsia-400"
                 : ""
             )}
           >
