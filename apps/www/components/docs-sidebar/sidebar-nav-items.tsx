@@ -31,7 +31,7 @@ export function SidebarNavItems({
           >
             {item.title}
             {item.label && (
-              <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
+              <span className="ml-2 rounded bg-[#adfa1d] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
                 {item.label}
               </span>
             )}
@@ -46,7 +46,7 @@ export function SidebarNavItems({
           >
             {item.title}
             {item.label && (
-              <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
+              <span className="ml-2 rounded-sm bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
                 {item.label}
               </span>
             )}

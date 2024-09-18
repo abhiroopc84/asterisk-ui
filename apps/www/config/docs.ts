@@ -30,6 +30,12 @@ export const docsConfig: DocsConfig = {
       title: "Components",
       items: [
         {
+          title: "Animated Perspective Grid",
+          href: "/docs/components/animated-perspective-grid",
+          items: [],
+          label: "New",
+        },
+        {
           title: "Evervault Card",
           href: "/docs/components/evervault-card",
           items: [],

@@ -19,6 +19,7 @@ import FileIcon from "@/components/file-icon";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import TerminalTextHoverEffectExample from "@/components/examples/terminal-text-hover-effect/terminal-text-hover-effect-example";
 import UnblurTextExample from "@/components/examples/unblur-text/unblur-text-example";
+import AnimatedPerspectiveGridExample from "@/components/examples/animated-perspective-grid/animated-perspective-grid-example";
 
 const components = {
   Accordion,
@@ -378,6 +379,7 @@ const components = {
   EvervaultCardExample,
   TerminalTextHoverEffectExample,
   UnblurTextExample,
+  AnimatedPerspectiveGridExample,
 };
 
 interface MdxProps {
