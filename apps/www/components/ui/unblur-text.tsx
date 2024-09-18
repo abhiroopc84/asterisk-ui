@@ -4,31 +4,44 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-const UnblurCharacter = ({
+type VariantType = "blur" | "brighten" | "stretch" | "skew";
+
+interface UnblurCharacterProps {
+  char: string;
+  charIndex: number;
+  totalChars: number;
+  scrollYProgress: MotionValue<number>;
+  variant?: VariantType;
+}
+
+interface UnblurWordProps {
+  word: string;
+  wordIndex: number;
+  words: string[];
+  totalChars: number;
+  scrollYProgress: MotionValue<number>;
+  variant?: VariantType;
+}
+
+interface UnblurTextProps {
+  children: string;
+  variant?: VariantType;
+  className?: string;
+}
+
+const UnblurCharacter: React.FC<UnblurCharacterProps> = ({
   char,
   charIndex,
   totalChars,
   scrollYProgress,
   variant = "blur",
-}: {
-  char: string;
-  charIndex: number;
-  totalChars: number;
-  scrollYProgress: MotionValue<number>;
-  variant?: "blur" | "brighten" | "stretch" | "skew";
 }) => {
   const revealDuration = 10 / totalChars;
   const start = charIndex / totalChars;
-  const end = Math.min(
-    (charIndex + revealDuration * totalChars) / totalChars,
-    1
-  );
+  const end = Math.min((charIndex + revealDuration * totalChars) / totalChars, 1);
 
   const blurRange = variant === "skew" ? [8, 0] : [10, 0];
-  const brightnessRanges: Record<
-    "blur" | "brighten" | "stretch" | "skew",
-    [number, number]
-  > = {
+  const brightnessRanges: Record<VariantType, [number, number]> = {
     blur: [100, 100],
     brighten: [30, 100],
     stretch: [50, 100],
@@ -38,32 +51,16 @@ const UnblurCharacter = ({
   const scaleYRange = variant === "stretch" ? [0.1, 1] : [1, 1];
   const scaleXRange = variant === "stretch" ? [1.8, 1] : [1, 1];
   const skewXRange = variant === "skew" ? [-75, 0] : [0, 0];
-  const opacityRange =
-    variant === "blur" || variant === "skew" ? [0, 1] : [1, 1];
+  const opacityRange = variant === "blur" || variant === "skew" ? [0, 1] : [1, 1];
 
-  const filterBlurValue = useTransform(
-    scrollYProgress,
-    [start, end],
-    blurRange
-  );
-  const filterBrightnessValue = useTransform(
-    scrollYProgress,
-    [start, end],
-    brightnessRange
-  );
+  const filterBlurValue = useTransform(scrollYProgress, [start, end], blurRange);
+  const filterBrightnessValue = useTransform(scrollYProgress, [start, end], brightnessRange);
   const scaleYValue = useTransform(scrollYProgress, [start, end], scaleYRange);
   const scaleXValue = useTransform(scrollYProgress, [start, end], scaleXRange);
   const skewXValue = useTransform(scrollYProgress, [start, end], skewXRange);
-  const opacityValue = useTransform(
-    scrollYProgress,
-    [start, end],
-    opacityRange
-  );
+  const opacityValue = useTransform(scrollYProgress, [start, end], opacityRange);
 
-  const filter = useTransform(
-    () =>
-      `blur(${filterBlurValue.get()}px) brightness(${filterBrightnessValue.get()}%)`
-  );
+  const filter = useTransform(() => `blur(${filterBlurValue.get()}px) brightness(${filterBrightnessValue.get()}%)`);
   const scaleY = scaleYValue;
   const scaleX = scaleXValue;
   const skewX = skewXValue;
@@ -85,20 +82,13 @@ const UnblurCharacter = ({
   );
 };
 
-const UnblurWord = ({
+const UnblurWord: React.FC<UnblurWordProps> = ({
   word,
   wordIndex,
   words,
   totalChars,
   scrollYProgress,
   variant,
-}: {
-  word: string;
-  wordIndex: number;
-  words: string[];
-  totalChars: number;
-  scrollYProgress: MotionValue<number>;
-  variant?: "blur" | "brighten" | "stretch" | "skew";
 }) => {
   const chars = word.split("");
   let charCount = 0;
@@ -116,21 +106,17 @@ const UnblurWord = ({
   ));
 };
 
-const UnblurText = ({
+const UnblurText: React.FC<UnblurTextProps> = ({
   children,
   variant,
   className,
-}: {
-  children: string;
-  variant?: "blur" | "brighten" | "stretch" | "skew";
-  className?: string;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     container: ref,
   });
-  const [lineCount, setLineCount] = useState(0);
+  const [lineCount, setLineCount] = useState<number>(0);
 
   const words = children.split(" ");
   const totalChars = children.replace(/\s/g, "").length;
@@ -140,8 +126,7 @@ const UnblurText = ({
       if (containerRef.current) {
         let containerHeight = containerRef.current.clientHeight;
         const style = window.getComputedStyle(containerRef.current);
-        const padding =
-          parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+        const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
         containerHeight = containerHeight - padding;
         const lineHeight = parseInt(style.lineHeight);
         const calculatedLineCount = Math.round(containerHeight / lineHeight);
@@ -158,18 +143,9 @@ const UnblurText = ({
   }, [children]);
 
   return (
-    <div
-      className="h-[30vh] overflow-y-scroll overflow-x-hidden px-4"
-      ref={ref}
-    >
-      <div
-        style={{ height: `${400 * lineCount}vh` }}
-        className={cn("relative", className)}
-      >
-        <motion.div
-          ref={containerRef}
-          className="sticky top-1/2 -translate-y-1/2"
-        >
+    <div className="h-[30vh] overflow-y-scroll overflow-x-hidden px-4" ref={ref}>
+      <div style={{ height: `${400 * lineCount}vh` }} className={cn("relative", className)}>
+        <motion.div ref={containerRef} className="sticky top-1/2 -translate-y-1/2">
           {words.map((word, wordIndex) => (
             <span key={wordIndex}>
               <span className="inline-block whitespace-nowrap">

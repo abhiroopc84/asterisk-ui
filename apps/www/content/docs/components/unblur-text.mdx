@@ -16,25 +16,15 @@ description: Blurry Text Reveal Animations.
 
 <TabsContent value="code">
 ```tsx showLineNumbers
-"use client";
-
 import UnblurText from "@/components/ui/unblur-text";
 import { cn } from "@/lib/utils";
 import { Info } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useState } from "react";
 
-const UnblurTextExample = () => {
-  const [variant, setVariant] = useState<
-    "blur" | "brighten" | "stretch" | "skew"
-  >("blur");
-
+const UnblurTextExample = ({
+  variant = "blur",
+}: {
+  variant: "blur" | "brighten" | "stretch" | "skew";
+}) => {
   return (
     <div
       className={cn(
@@ -44,24 +34,6 @@ const UnblurTextExample = () => {
       <div className="flex flex-row gap-2 border rounded-md py-2 px-3 items-center absolute bottom-2 right-2">
         <span className="text-sm">Scroll</span>
         <Info className="w-4 h-4" />
-      </div>
-      <div className="absolute bottom-2 left-2">
-        <Select
-          value={variant}
-          onValueChange={(value: "blur" | "brighten" | "stretch" | "skew") =>
-            setVariant(value)
-          }
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Variant" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="blur">Blur</SelectItem>
-            <SelectItem value="brighten">Brighten</SelectItem>
-            <SelectItem value="stretch">Stretch</SelectItem>
-            <SelectItem value="skew">Skew</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
       <div className="px-2 md:px-8 py-8 w-fit flex flex-col gap-4">
         <UnblurText variant={variant} className="md:text-lg">
@@ -96,31 +68,44 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-const UnblurCharacter = ({
+type VariantType = "blur" | "brighten" | "stretch" | "skew";
+
+interface UnblurCharacterProps {
+  char: string;
+  charIndex: number;
+  totalChars: number;
+  scrollYProgress: MotionValue<number>;
+  variant?: VariantType;
+}
+
+interface UnblurWordProps {
+  word: string;
+  wordIndex: number;
+  words: string[];
+  totalChars: number;
+  scrollYProgress: MotionValue<number>;
+  variant?: VariantType;
+}
+
+interface UnblurTextProps {
+  children: string;
+  variant?: VariantType;
+  className?: string;
+}
+
+const UnblurCharacter: React.FC<UnblurCharacterProps> = ({
   char,
   charIndex,
   totalChars,
   scrollYProgress,
   variant = "blur",
-}: {
-  char: string;
-  charIndex: number;
-  totalChars: number;
-  scrollYProgress: MotionValue<number>;
-  variant?: "blur" | "brighten" | "stretch" | "skew";
 }) => {
   const revealDuration = 10 / totalChars;
   const start = charIndex / totalChars;
-  const end = Math.min(
-    (charIndex + revealDuration * totalChars) / totalChars,
-    1
-  );
+  const end = Math.min((charIndex + revealDuration * totalChars) / totalChars, 1);
 
   const blurRange = variant === "skew" ? [8, 0] : [10, 0];
-  const brightnessRanges: Record<
-    "blur" | "brighten" | "stretch" | "skew",
-    [number, number]
-  > = {
+  const brightnessRanges: Record<VariantType, [number, number]> = {
     blur: [100, 100],
     brighten: [30, 100],
     stretch: [50, 100],
@@ -130,32 +115,16 @@ const UnblurCharacter = ({
   const scaleYRange = variant === "stretch" ? [0.1, 1] : [1, 1];
   const scaleXRange = variant === "stretch" ? [1.8, 1] : [1, 1];
   const skewXRange = variant === "skew" ? [-75, 0] : [0, 0];
-  const opacityRange =
-    variant === "blur" || variant === "skew" ? [0, 1] : [1, 1];
+  const opacityRange = variant === "blur" || variant === "skew" ? [0, 1] : [1, 1];
 
-  const filterBlurValue = useTransform(
-    scrollYProgress,
-    [start, end],
-    blurRange
-  );
-  const filterBrightnessValue = useTransform(
-    scrollYProgress,
-    [start, end],
-    brightnessRange
-  );
+  const filterBlurValue = useTransform(scrollYProgress, [start, end], blurRange);
+  const filterBrightnessValue = useTransform(scrollYProgress, [start, end], brightnessRange);
   const scaleYValue = useTransform(scrollYProgress, [start, end], scaleYRange);
   const scaleXValue = useTransform(scrollYProgress, [start, end], scaleXRange);
   const skewXValue = useTransform(scrollYProgress, [start, end], skewXRange);
-  const opacityValue = useTransform(
-    scrollYProgress,
-    [start, end],
-    opacityRange
-  );
+  const opacityValue = useTransform(scrollYProgress, [start, end], opacityRange);
 
-  const filter = useTransform(
-    () =>
-      `blur(${filterBlurValue.get()}px) brightness(${filterBrightnessValue.get()}%)`
-  );
+  const filter = useTransform(() => `blur(${filterBlurValue.get()}px) brightness(${filterBrightnessValue.get()}%)`);
   const scaleY = scaleYValue;
   const scaleX = scaleXValue;
   const skewX = skewXValue;
@@ -177,20 +146,13 @@ const UnblurCharacter = ({
   );
 };
 
-const UnblurWord = ({
+const UnblurWord: React.FC<UnblurWordProps> = ({
   word,
   wordIndex,
   words,
   totalChars,
   scrollYProgress,
   variant,
-}: {
-  word: string;
-  wordIndex: number;
-  words: string[];
-  totalChars: number;
-  scrollYProgress: MotionValue<number>;
-  variant?: "blur" | "brighten" | "stretch" | "skew";
 }) => {
   const chars = word.split("");
   let charCount = 0;
@@ -208,21 +170,17 @@ const UnblurWord = ({
   ));
 };
 
-const UnblurText = ({
+const UnblurText: React.FC<UnblurTextProps> = ({
   children,
   variant,
   className,
-}: {
-  children: string;
-  variant?: "blur" | "brighten" | "stretch" | "skew";
-  className?: string;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     container: ref,
   });
-  const [lineCount, setLineCount] = useState(0);
+  const [lineCount, setLineCount] = useState<number>(0);
 
   const words = children.split(" ");
   const totalChars = children.replace(/\s/g, "").length;
@@ -232,8 +190,7 @@ const UnblurText = ({
       if (containerRef.current) {
         let containerHeight = containerRef.current.clientHeight;
         const style = window.getComputedStyle(containerRef.current);
-        const padding =
-          parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+        const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
         containerHeight = containerHeight - padding;
         const lineHeight = parseInt(style.lineHeight);
         const calculatedLineCount = Math.round(containerHeight / lineHeight);
@@ -250,18 +207,9 @@ const UnblurText = ({
   }, [children]);
 
   return (
-    <div
-      className="h-[30vh] overflow-y-scroll overflow-x-hidden px-4"
-      ref={ref}
-    >
-      <div
-        style={{ height: `${400 * lineCount}vh` }}
-        className={cn("relative", className)}
-      >
-        <motion.div
-          ref={containerRef}
-          className="sticky top-1/2 -translate-y-1/2"
-        >
+    <div className="h-[30vh] overflow-y-scroll overflow-x-hidden px-4" ref={ref}>
+      <div style={{ height: `${400 * lineCount}vh` }} className={cn("relative", className)}>
+        <motion.div ref={containerRef} className="sticky top-1/2 -translate-y-1/2">
           {words.map((word, wordIndex) => (
             <span key={wordIndex}>
               <span className="inline-block whitespace-nowrap">
@@ -289,6 +237,216 @@ export default UnblurText;
   <Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
+
+## Examples
+
+### Blur
+<Tabs defaultValue="preview">
+
+<TabsList>
+  <TabsTrigger value="preview">Preview</TabsTrigger>
+  <TabsTrigger value="code">Code</TabsTrigger>
+</TabsList>
+
+<TabsContent value="preview">
+  <UnblurTextExample variant="blur"/>
+</TabsContent>
+
+<TabsContent value="code">
+```tsx showLineNumbers
+import UnblurText from "@/components/ui/unblur-text";
+import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+
+const UnblurTextExample = ({
+  variant = "blur",
+}: {
+  variant: "blur" | "brighten" | "stretch" | "skew";
+}) => {
+  return (
+    <div
+      className={cn(
+        "border bg-background mt-8 rounded-lg p-6 flex items-center justify-center"
+      )}
+    >
+      <div className="flex flex-row gap-2 border rounded-md py-2 px-3 items-center absolute bottom-2 right-2">
+        <span className="text-sm">Scroll</span>
+        <Info className="w-4 h-4" />
+      </div>
+      <div className="px-2 md:px-8 py-8 w-fit flex flex-col gap-4">
+        <UnblurText variant={variant} className="md:text-lg">
+          Brimstone, for years the search to understand my own past drove me...
+          I thought I could find peace by knowing who I am, who I was, but no.
+          The truth has only led to more questions more frustration. I... I lack
+          focus. I lack clarity. I am no longer an asset to the Protocol. I am
+          going to leave for some time. I intend to recover and I intend to
+          return. I will find my own path along the way. Do not follow me.
+        </UnblurText>
+      </div>
+    </div>
+  );
+};
+
+export default UnblurTextExample;
+```
+</TabsContent>
+</Tabs>
+
+### Brighten
+<Tabs defaultValue="preview">
+
+<TabsList>
+  <TabsTrigger value="preview">Preview</TabsTrigger>
+  <TabsTrigger value="code">Code</TabsTrigger>
+</TabsList>
+
+<TabsContent value="preview">
+  <UnblurTextExample variant="brighten"/>
+</TabsContent>
+
+<TabsContent value="code">
+```tsx showLineNumbers
+import UnblurText from "@/components/ui/unblur-text";
+import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+
+const UnblurTextExample = ({
+  variant = "blur",
+}: {
+  variant: "blur" | "brighten" | "stretch" | "skew";
+}) => {
+  return (
+    <div
+      className={cn(
+        "border bg-background mt-8 rounded-lg p-6 flex items-center justify-center"
+      )}
+    >
+      <div className="flex flex-row gap-2 border rounded-md py-2 px-3 items-center absolute bottom-2 right-2">
+        <span className="text-sm">Scroll</span>
+        <Info className="w-4 h-4" />
+      </div>
+      <div className="px-2 md:px-8 py-8 w-fit flex flex-col gap-4">
+        <UnblurText variant={variant} className="md:text-lg">
+          Brimstone, for years the search to understand my own past drove me...
+          I thought I could find peace by knowing who I am, who I was, but no.
+          The truth has only led to more questions more frustration. I... I lack
+          focus. I lack clarity. I am no longer an asset to the Protocol. I am
+          going to leave for some time. I intend to recover and I intend to
+          return. I will find my own path along the way. Do not follow me.
+        </UnblurText>
+      </div>
+    </div>
+  );
+};
+
+export default UnblurTextExample;
+```
+</TabsContent>
+</Tabs>
+
+### Stretch
+<Tabs defaultValue="preview">
+
+<TabsList>
+  <TabsTrigger value="preview">Preview</TabsTrigger>
+  <TabsTrigger value="code">Code</TabsTrigger>
+</TabsList>
+
+<TabsContent value="preview">
+  <UnblurTextExample variant="stretch"/>
+</TabsContent>
+
+<TabsContent value="code">
+```tsx showLineNumbers
+import UnblurText from "@/components/ui/unblur-text";
+import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+
+const UnblurTextExample = ({
+  variant = "blur",
+}: {
+  variant: "blur" | "brighten" | "stretch" | "skew";
+}) => {
+  return (
+    <div
+      className={cn(
+        "border bg-background mt-8 rounded-lg p-6 flex items-center justify-center"
+      )}
+    >
+      <div className="flex flex-row gap-2 border rounded-md py-2 px-3 items-center absolute bottom-2 right-2">
+        <span className="text-sm">Scroll</span>
+        <Info className="w-4 h-4" />
+      </div>
+      <div className="px-2 md:px-8 py-8 w-fit flex flex-col gap-4">
+        <UnblurText variant={variant} className="md:text-lg">
+          Brimstone, for years the search to understand my own past drove me...
+          I thought I could find peace by knowing who I am, who I was, but no.
+          The truth has only led to more questions more frustration. I... I lack
+          focus. I lack clarity. I am no longer an asset to the Protocol. I am
+          going to leave for some time. I intend to recover and I intend to
+          return. I will find my own path along the way. Do not follow me.
+        </UnblurText>
+      </div>
+    </div>
+  );
+};
+
+export default UnblurTextExample;
+```
+</TabsContent>
+</Tabs>
+
+### Skew
+<Tabs defaultValue="preview">
+
+<TabsList>
+  <TabsTrigger value="preview">Preview</TabsTrigger>
+  <TabsTrigger value="code">Code</TabsTrigger>
+</TabsList>
+
+<TabsContent value="preview">
+  <UnblurTextExample variant="skew"/>
+</TabsContent>
+
+<TabsContent value="code">
+```tsx showLineNumbers
+import UnblurText from "@/components/ui/unblur-text";
+import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+
+const UnblurTextExample = ({
+  variant = "blur",
+}: {
+  variant: "blur" | "brighten" | "stretch" | "skew";
+}) => {
+  return (
+    <div
+      className={cn(
+        "border bg-background mt-8 rounded-lg p-6 flex items-center justify-center"
+      )}
+    >
+      <div className="flex flex-row gap-2 border rounded-md py-2 px-3 items-center absolute bottom-2 right-2">
+        <span className="text-sm">Scroll</span>
+        <Info className="w-4 h-4" />
+      </div>
+      <div className="px-2 md:px-8 py-8 w-fit flex flex-col gap-4">
+        <UnblurText variant={variant} className="md:text-lg">
+          Brimstone, for years the search to understand my own past drove me...
+          I thought I could find peace by knowing who I am, who I was, but no.
+          The truth has only led to more questions more frustration. I... I lack
+          focus. I lack clarity. I am no longer an asset to the Protocol. I am
+          going to leave for some time. I intend to recover and I intend to
+          return. I will find my own path along the way. Do not follow me.
+        </UnblurText>
+      </div>
+    </div>
+  );
+};
+
+export default UnblurTextExample;
+```
+</TabsContent>
+</Tabs>
 
 ## Props
 

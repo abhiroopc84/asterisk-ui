@@ -6,20 +6,36 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import React from "react";
 
-const CardImage = ({
-  children,
-  colors,
-  className,
-}: {
+interface ColorScheme {
+  dark?: string[];
+  light?: string[];
+}
+
+interface CardImageProps {
   children: ReactElement;
-  colors?: { dark?: string[]; light?: string[] };
+  colors?: ColorScheme;
   className?: string;
-}) => {
+}
+
+interface CardTextProps {
+  children: string;
+  position: { x: number; y: number };
+  divRef: Ref<HTMLDivElement>;
+}
+
+interface EvervaultCardProps {
+  children: string | ReactElement;
+  colors?: ColorScheme;
+  className?: string;
+}
+
+const CardImage: React.FC<CardImageProps> = ({ children, colors, className }) => {
   const { resolvedTheme } = useTheme();
   let darkGradient =
     "rgb(23, 24, 37) 40%, rgb(102, 51, 238) 50%, rgb(142, 100, 255), rgb(249, 38, 114)";
   let lightGradient =
     "rgb(232,231,218) 40%, rgb(153,204,17) 50%, rgb(113,155,0), rgb(6,217,141)";
+
   if (colors) {
     if (colors.dark && colors.dark.length >= 3) {
       darkGradient = `rgb(23, 24, 37) 40%, ${colors.dark[0]}, ${colors.dark[1]}, ${colors.dark[2]}`;
@@ -51,15 +67,7 @@ const CardImage = ({
   );
 };
 
-const CardText = ({
-  children,
-  position,
-  divRef,
-}: {
-  children: string;
-  position: { x: number; y: number };
-  divRef: Ref<HTMLDivElement>;
-}) => {
+const CardText: React.FC<CardTextProps> = ({ children, position, divRef }) => {
   const { resolvedTheme } = useTheme();
   return (
     <div
@@ -85,15 +93,7 @@ const CardText = ({
   );
 };
 
-const EvervaultCard = ({
-  children,
-  colors,
-  className,
-}: {
-  children: string | ReactElement;
-  colors?: { dark?: string[]; light?: string[] };
-  className?: string;
-}) => {
+const EvervaultCard: React.FC<EvervaultCardProps> = ({ children, colors, className }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [randText, setRandText] = useState("");
   const divRef = useRef<HTMLDivElement>(null);
@@ -103,16 +103,17 @@ const EvervaultCard = ({
     setMounted(true);
     const setFromEvent = (e: MouseEvent) => {
       if (divRef.current) {
+        const rect = divRef.current.getBoundingClientRect();
         if (
-          e.clientX > divRef.current.getBoundingClientRect().left &&
-          e.clientX < divRef.current.getBoundingClientRect().right &&
-          e.clientY > divRef.current.getBoundingClientRect().top &&
-          e.clientY < divRef.current.getBoundingClientRect().bottom
+          e.clientX > rect.left &&
+          e.clientX < rect.right &&
+          e.clientY > rect.top &&
+          e.clientY < rect.bottom
         ) {
           divRef.current.style.opacity = "100";
           setPosition({
-            x: e.clientX - divRef.current.getBoundingClientRect().left,
-            y: e.clientY - divRef.current.getBoundingClientRect().top,
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
           });
           setRandText(getRandomString(3000));
         } else {
@@ -120,17 +121,12 @@ const EvervaultCard = ({
         }
       }
     };
+
     const getRandomString = (length: number) => {
-      let result = "";
-      let characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * characters.length)
-        );
-      }
-      return result;
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      return Array.from({ length }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
     };
+
     window.addEventListener("mousemove", setFromEvent);
 
     return () => {
@@ -138,12 +134,13 @@ const EvervaultCard = ({
     };
   }, []);
 
-  if (!mounted)
+  if (!mounted) {
     return (
       <Skeleton
         className={cn("flex w-full h-full aspect-square rounded-3xl")}
       />
     );
+  }
 
   return (
     <CardImage colors={colors} className={className}>
