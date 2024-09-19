@@ -5,6 +5,7 @@ import { CommandMenu } from "@/components/header/command-menu";
 import HeaderLogo from "@/components/header/header-logo";
 import HeaderPage from "@/components/header/header-page";
 import MobileNav from "@/components/header/mobile-nav";
+import Socials from "./socials";
 
 export default function Header() {
   return (
@@ -13,9 +14,10 @@ export default function Header() {
         <HeaderLogo />
         <HeaderPage />
       </div>
-      <div className="flex flex-row gap-4 items-center w-full md:w-fit">
+      <div className="flex flex-row gap-2 items-center w-full md:w-fit">
         <CommandMenu />
         <div className="hidden md:flex">
+          <Socials />
           <ModeToggle />
         </div>
         <div className="flex md:hidden">
